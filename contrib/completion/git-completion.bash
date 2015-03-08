@@ -1082,6 +1082,7 @@ _git_clone ()
 			--no-hardlinks
 			--shared
 			--reference
+			--recursive
 			--quiet
 			--no-checkout
 			--bare
