@@ -209,6 +209,13 @@ test_commit_autosquash_multi_encoding () {
 	old=$2
 	new=$3
 	msg=$4
+	squash_msg=
+	if test $flag = squash; then
+		squash_msg='
+		subject="squash! $(head -1 expect)" &&
+		printf "\n%s\n" "$subject" >> expect &&
+		'
+	fi
 	test_expect_success "commit --$flag into $old from $new" '
 		git checkout -b '$flag-$old-$new' C0 &&
 		git config i18n.commitencoding '$old' &&
@@ -224,7 +231,12 @@ test_commit_autosquash_multi_encoding () {
 		git commit -a --'$flag' HEAD^ &&
 		git rebase --autosquash -i HEAD^^^ &&
 		git rev-list HEAD >actual &&
-		test_line_count = 3 actual
+		test_line_count = 3 actual &&
+		iconv -f '$old' -t utf-8 "$TEST_DIRECTORY/t3900/'$msg'" >expect &&
+		'"$squash_msg"'
+		git cat-file commit HEAD^ >raw &&
+		(sed "1,/^$/d" raw | iconv -f '$new' -t utf-8) >actual &&
+		test_cmp expect actual
 	'
 }
 
