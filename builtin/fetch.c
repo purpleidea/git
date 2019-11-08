@@ -604,7 +604,7 @@ static void adjust_refcol_width(const struct ref *ref)
 {
 	int max, rlen, llen, len;
 
-	/* uptodate lines are only shown on high verbosity level */
+	/* up-to-date lines are only shown on high verbosity level */
 	if (!verbosity && oideq(&ref->peer_ref->old_oid, &ref->old_oid))
 		return;
 
@@ -1400,7 +1400,7 @@ static int do_fetch(struct transport *transport,
 
 		/*
 		 * We're setting the upstream configuration for the
-		 * current branch. The relevent upstream is the
+		 * current branch. The relevant upstream is the
 		 * fetched branch that is meant to be merged with the
 		 * current one, i.e. the one fetched to FETCH_HEAD.
 		 *
